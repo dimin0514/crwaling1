@@ -8,23 +8,27 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Box<T> {
-	private HashMap<String, T> map;
+	private HashMap<String, T> box;
+	public Box() {
+		box = new HashMap<String, T>();
+	}
+	public void put(String s,T t) {box.put(s, t);}
 	public void put(List<String> x,Inventory<T> y) {
-		map = new HashMap<>();
+		box = new HashMap<>();
 		for(int i = 0; i < x.size(); i++) {
-			map.put(x.get(i), y.get(i));
+			box.put(x.get(i), y.get(i));
 		}
-		map.forEach((k,v) -> System.out.print(String.format("%s:/%s", k,v)));
+		box.forEach((k,v) -> System.out.print(String.format("%s:/%s", k,v)));
 		
 	}
 	public T get(String k) {
-		Function<String,T> f = p-> map.get(p);
+		Function<String,T> f = p-> box.get(p);
 		return f.apply(k);
 	}
 	
 	public HashMap<String, T> get() {
-		return map;
+		return box;
 	}
-	public int size() {return map.size();}
+	public int size() {return box.size();}
 	
 }

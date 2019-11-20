@@ -39,7 +39,8 @@ app = (()=>{
 		.css({
 			width:'80%',
 			height:'100%',
-			border:'1px solid black'
+			border:'1px solid black',
+			'vertical-align':'top'
 		})
 		$.each(['naver','bugs','cgv'],(i,j)=>{
 			$('<div/>')
@@ -63,7 +64,7 @@ app = (()=>{
 			
 					$.each(d,(i,j)=>{     //i 가 인덱스 j 는 {}로 담겨져 있음
 						$('<div/>')
-//						.text(j.origin+'----'+j.trans)//tag와 tag사이에 넣을때  text cf) attr 알아보자
+//						.text(j.origin+'----'+j.trans)//tag와 tag사이에 넣을때  text cf) attr은 태그안에 속성 값 넣을때
 						.html('<h2>'+j.origin+'</h2><h4>'+j.trans+'</h4>') //글자에 뭔가 태그 넣고 싶을때는 html을 써야한다.
 						.css({
 							width:'40%',
@@ -77,14 +78,43 @@ app = (()=>{
 				break;
 				case 'bugs':
 					$.getJSON(_+'/bugs',d=>{
-					$.each([],(i,j)=>{
-						$('<div/>').appendTo('#right')
-					})
+						let pager = d.pager
+						let list = d.list
+						$('#right').empty() 
+						//no title artist thumbnail
+						
+						$('<table id="content"><tr id="head"></tr></table>')
+						.css({width: '99%',
+								height: '50px',
+				              border: '1px solid black'})
+						.appendTo('#right')
+						$.each(['No.','앨범','제목','가수'],(i, j)=>{
+							$('<th/>')
+							.html('<b>'+j+'</b>')
+							.css({width: '25%',height: '100%',
+					              border: '1px solid black'})
+							.appendTo('#head')
+						})
+						$.each(list, (i, j)=>{
+							$('<tr><td>'+j.seq+'</td><td><img src="'+j.thumbnail+'"/></td><td>'+j.title+'</td><td>'+j.artist+'</td></tr>')
+							.css({width: '25%',height: '100%',
+					              border: '1px solid black'})
+							.appendTo('#content tbody')
+						})
+						$('#content tr td').css({border: '1px solid black'})
+						$.each(['1','2','3'],(i,j)=>{
+							$('<span><a href="#">'+j+'</a></span>')
+							.css({
+								'place':'center'
+							})
+							.appendTo('#right')
+						})
+						
 				})
 				break;
 				case 'cgv':
+					$('#right').empty()
 					$.getJSON(_+'/cgv',d=>{
-						$('#right').empty()
 						$.each(d,(i,j)=>{
 							$('<div><img src="'+j.photo+'"></br>'+j.title+'</br>'+j.percent+'</br>'+j.info+'</div>')
 							.css({
@@ -95,7 +125,9 @@ app = (()=>{
 						})
 					})
 				break;
+	
 				}
+				
 			})
 		})
 	}
