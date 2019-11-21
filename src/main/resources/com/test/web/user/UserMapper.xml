@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.web.user.UserMapper">
+
+	<select id="createDB" parameterType="HashMap">
+		${CREATE_DB}
+	</select>
+	<select id="create_user" parameterType="map">
+		${CREATE_TABLE}
+	</select>
+	<select id="create_dogs" parameterType="map">
+		${CREATE_DOG}
+	</select>
+	<select id="dropUser" parameterType="map">
+		${DROP_USER}
+	</select>
+		<select id="delete_dogs" parameterType="map">
+		${DROP_DOG}
+	</select>
+
+    <insert id="insertUser" parameterType="User">
+        insert into USER (uid, PWD, SSN, UNAME, PHONE, ADDRESS, EMAIL, PETTYPE) values (
+            #{uid}, #{pwd}, #{ssn}, #{uname}, #{phone}, #{address}, #{email}, #{petType}
+        )
+    </insert>
+    <select id="selectUserById" resultType="User">
+        SELECT * FROM User
+        	 WHERE uid LIKE #{uid}
+    </select>     
+    <select id="selectUserByIdPw" resultType="User">
+        SELECT * FROM User
+        	 WHERE uid LIKE #{uid} and PWD LIKE #{pwd}
+    </select>
+    <select id="existId"   resultType="int">
+      SELECT COUNT(*) FROM User WHERE uid LIKE #{uid} 
+    </select>
+    <select id="lastCNum" resultType="int">
+		SELECT MAX(CNUM)  CNUM FROM User
+	</select>
+	<select id="countUsers"   resultType="int">
+      SELECT COUNT(*) FROM User WHERE uid LIKE #{uid} 
+    </select>
+    	<select id="rowCount"   resultType="int">
+      SELECT COUNT(*) FROM User
+    </select>
+</mapper>

@@ -180,7 +180,6 @@ app = (()=>{
 						app.list(pager.nextBlock)
 					})
 			}
-			
 		})
 	}
 	return {run,list}

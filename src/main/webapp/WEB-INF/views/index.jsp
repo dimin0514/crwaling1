@@ -12,6 +12,7 @@
 	<script src="<%=application.getContextPath()%>/resources/js/pop.js"></script>
 <meta charset="UTF-8">
 <title>Hello world!</title>
+
 </head>
 <body>
 <div id='wrapper'></div>
