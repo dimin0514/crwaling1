@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ import com.test.web.pxy.Box;
 import com.test.web.pxy.CrwalingProxy;
 import com.test.web.pxy.Inventory;
 import com.test.web.pxy.PageProxy;
+import com.test.web.pxy.Proxy;
 
 @RestController
 @RequestMapping("/")
@@ -20,6 +22,7 @@ public class Crawling {
 	@Autowired CrwalingProxy crwal;
 	@Autowired PageProxy pager;
 	@Autowired Box<Object> box;
+	@Autowired Proxy pxy;
 	
 	@GetMapping("/naver")
 	public ArrayList<HashMap<String, String>> crwalingNaver() {
@@ -35,14 +38,14 @@ public class Crawling {
 		return crwal.cgvCrawl();
 	}
 	
-	@GetMapping("/bugs")
-	public Map<?,?> crwalingBugs() {
-		System.out.println("벅스 들어옴");
+	@GetMapping("/bugs/page/{page}")
+	public Map<?,?> crwalingBugs(@PathVariable String page) {
+		System.out.println("벅스 들어옴 넘어온 페이지는?"+ page);
 		ArrayList<HashMap<String, String>> list = crwal.bugsCrawling();
 		pager.setRowCount(list.size());  // 이미 게터세터 만들었음.
 		pager.setPageSize(10);
 		pager.setBlockSize(5);
-		pager.setNowPage(0);
+		pager.setNowPage(pager.integer(page));
 		pager.paging();
 //		int size = list.size();
 //		pager.paging(size);

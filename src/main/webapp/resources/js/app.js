@@ -1,9 +1,15 @@
 var app = app || {}
 app = (()=>{
-	let run=x=>$.getScript(x+'/resources/js/cmm/router.js',()=>{
-		$.extend(new Session(x))
-		onCreate()
-	})
+	let run=x=>
+		$.when(
+				$.getScript(x+'/resources/js/cmm/router.js',()=>{
+					$.extend(new Session(x))
+				}),
+				$.getScript(x+'/resources/js/pop.js')
+		).done(()=>{
+			onCreate()
+		}).fail(()=>{})
+	
 	let _, js, css, img
 	let init=()=>{
 		_ = $.ctx(),
@@ -14,6 +20,8 @@ app = (()=>{
 	}
 	let onCreate=()=>{
 		init()
+		$(pop.view()).appendTo('body')
+		pop.open()
 		setContentView()
 	}
 	let setContentView=()=>{
@@ -77,40 +85,7 @@ app = (()=>{
 				})
 				break;
 				case 'bugs':
-					$.getJSON(_+'/bugs',d=>{
-						let pager = d.pager
-						let list = d.list
-						$('#right').empty() 
-						//no title artist thumbnail
-						
-						$('<table id="content"><tr id="head"></tr></table>')
-						.css({width: '99%',
-								height: '50px',
-				              border: '1px solid black'})
-						.appendTo('#right')
-						$.each(['No.','앨범','제목','가수'],(i, j)=>{
-							$('<th/>')
-							.html('<b>'+j+'</b>')
-							.css({width: '25%',height: '100%',
-					              border: '1px solid black'})
-							.appendTo('#head')
-						})
-						$.each(list, (i, j)=>{
-							$('<tr><td>'+j.seq+'</td><td><img src="'+j.thumbnail+'"/></td><td>'+j.title+'</td><td>'+j.artist+'</td></tr>')
-							.css({width: '25%',height: '100%',
-					              border: '1px solid black'})
-							.appendTo('#content tbody')
-						})
-						$('#content tr td').css({border: '1px solid black'})
-						$.each(['1','2','3'],(i,j)=>{
-							$('<span><a href="#">'+j+'</a></span>')
-							.css({
-								'place':'center'
-							})
-							.appendTo('#right')
-						})
-						
-				})
+					list('0')
 				break;
 				case 'cgv':
 					$('#right').empty()
@@ -131,6 +106,83 @@ app = (()=>{
 			})
 		})
 	}
-	return {run}
+	
+	let list=x=>{
+		$.getJSON(_+'/bugs/page/'+x,d=>{    //ajax로 x를 보낼듯?
+			let pager = d.page
+			let list = d.list
+			$('#right').empty() 
+			//no title artist thumbnail
+			$('<table id="content"><tr id="head"></tr></table>')
+			.css({width: '99%',
+					height: '50px',
+	              border: '1px solid black'})
+			.appendTo('#right')
+			$.each(['No.','앨범','제목','가수'],(i, j)=>{
+				$('<th/>')
+				.html('<b>'+j+'</b>')
+				.css({width: '25%',height: '100%',
+		              border: '1px solid black'})
+				.appendTo('#head')
+			})
+			$.each(list, (i, j)=>{
+				$('<tr><td>'+j.seq+'</td><td><img src="'+j.thumbnail+'"/></td><td>'+j.title+'</td><td>'+j.artist+'</td></tr>')
+				.css({width: '25%',height: '100%',
+		              border: '1px solid black'})
+				.appendTo('#content tbody')
+			})
+			$('#content tr td').css({border: '1px solid black'})
+			$('<div/>',{id:'pagination'})
+			.css({
+				width:'50%',
+				height:'30x',
+				margin:'20px auto'
+			})
+			.appendTo('#right')
+			if(pager.existPrev){
+				$('<span>')
+				.text('prev')
+				.css({
+					display: 'inline-block',
+					width:'50px',height:'30x',
+					border:'1px solid red',
+					'text-align':'center'})
+					.appendTo('#pagination')
+					.click(function(){
+						app.list(pager.prevBlock)
+					})
+			}
+			let i=pager.startPage //let i 는 바깥에서 줘라.
+			for(;i<=pager.endPage;i++){
+				$('<span>')
+				.text(i+1)
+				.css({
+					display: 'inline-block',
+					width:'30px',height:'30x',
+					border:'1px solid red',
+					'text-align':'center'})
+					.appendTo('#pagination')
+					.click(function(){
+						let page = parseInt($(this).text())
+						app.list(page-1)
+					})
+			}
+			if(pager.existNext){
+				$('<span>')
+				.text('next')
+				.css({
+					display: 'inline-block',
+					width:'50px',height:'30x',
+					border:'1px solid red',
+					'text-align':'center'})
+					.appendTo('#pagination')
+					.click(function(){
+						app.list(pager.nextBlock)
+					})
+			}
+			
+		})
+	}
+	return {run,list}
 	
 })()
