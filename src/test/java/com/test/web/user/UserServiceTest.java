@@ -1,11 +1,15 @@
 package com.test.web.user;
 
+import static org.junit.Assert.*;
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +26,16 @@ import com.test.web.config.WebConfig;
 @ContextConfiguration(classes = {  RootConfig.class, ServletConfig.class,
         WebConfig.class }, loader =  AnnotationConfigWebContextLoader.class)
 @WebAppConfiguration
-public class UserCtlTest {
-	@Autowired UserCtl userctl;
+public class UserServiceTest {
+	@Autowired UserService userService;
 	
-
-	@Test
 	@Ignore
-	public void testRowCount() {
-		assertThat(userctl.rowCount(), is(equalTo(0)));
+	public void testTest() {
+		assertThat(userService.test(), is(equalTo("11")));
 	}
-
+	@Test
+	public void testselectAll() {
+		assertThat(userService.selectAll(), is(equalTo("5")));
+	}
 
 }

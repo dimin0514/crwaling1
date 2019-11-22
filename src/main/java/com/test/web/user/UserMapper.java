@@ -1,6 +1,7 @@
 package com.test.web.user;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,7 @@ public interface UserMapper {
 	public void delete_dogs(HashMap<String, String> paramMap);
 	public void createDogsTable(HashMap<String, String> paramMap);
 	public int rowCount();
+	public List<User> selectAll();
 	
 	//트런크를 쓴다면? 지네릭스의 끝!!
 	//	public void create_user(Trunk<?, extends User> paramMap);

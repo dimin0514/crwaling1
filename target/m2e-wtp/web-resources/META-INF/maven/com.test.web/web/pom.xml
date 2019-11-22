@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.test.web</groupId>
     <artifactId>web</artifactId>
-    <name>catdog</name>
+    <name>test</name>
     <packaging>war</packaging>
     <version>1.0.0-BUILD-SNAPSHOT</version>
     <properties>
@@ -16,7 +16,7 @@
         <servlet-version>3.1.0</servlet-version>
         <jsp-version>2.1</jsp-version>
         <jstl-version>1.2</jstl-version>
-        <junit-version>4.7</junit-version>
+        <junit-version>4.12</junit-version>
         <log4j-version>1.2.15</log4j-version>
         <inject-version>1</inject-version>
         <mysql-version>8.0.15</mysql-version>
@@ -31,7 +31,7 @@
     </properties>
     <contributors>
         <contributor>
-            <name>Min Dong-in</name>
+            <name>Min dong-in</name>
             <email>dimin0514@gmail.com</email>
         </contributor>
     </contributors>
@@ -95,6 +95,27 @@
     		<artifactId>jsoup</artifactId>
     		<version>${jsoup-version}</version>
 			</dependency>
+		<!-- spring-security 설정 -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${spring-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${spring-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>${spring-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		    <version>${spring-version}</version>
+		</dependency>
         <!-- AspectJ -->
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -226,13 +247,15 @@
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- spring-test버전 설정 -->
-        <dependency>
-    		<groupId>org.springframework</groupId>
-    		<artifactId>spring-test</artifactId>
-    		<version>${spring-test-version}</version>
-    		<scope>test</scope>
+
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${spring-version}</version>
+		    <scope>tests</scope>
 		</dependency>
+
+		
 		<dependency>
     		<groupId>org.mockito</groupId>
     		<artifactId>mockito-all</artifactId>

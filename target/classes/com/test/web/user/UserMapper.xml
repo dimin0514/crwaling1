@@ -42,7 +42,14 @@
 	<select id="countUsers"   resultType="int">
       SELECT COUNT(*) FROM User WHERE uid LIKE #{uid} 
     </select>
-    	<select id="rowCount"   resultType="int">
+    <select id="rowCount"   resultType="int">
       SELECT COUNT(*) FROM User
     </select>
+    <select  id="selectAll" resultType="User">
+    	SELECT *
+    	FROM USER
+    	WHERE UID LIKE '0%'
+    </select>
+    
+    
 </mapper>
